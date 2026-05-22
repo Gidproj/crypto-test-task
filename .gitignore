@@ -1,7 +1,22 @@
+# Visual Studio
+.vs/
+
+# Python
 __pycache__/
 *.pyc
-.env
 venv/
-.idea/
-.vscode/
-celerybeat-schedule
+.env
+
+# Database
+*.db
+
+# Node
+node_modules/
+.next/
+
+# Logs
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
