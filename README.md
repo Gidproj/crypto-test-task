@@ -1,50 +1,35 @@
-# Crypto Exchange Dashboard
+# Crypto Exchange Dashboard 
 
-Modern fullstack cryptocurrency dashboard built with FastAPI, PostgreSQL and Next.js.
+# Ссылка на сайт: https://crypto-test-task-puce.vercel.app/
+Современный фуллстек-сервис для мониторинга криптовалют в реальном времени. Проект сочетает в себе высокую производительность бэкенда на Python и интерактивный пользовательский интерфейс на Next.js.
 
-## Preview
+## 🚀 Основные возможности
 
-- Real-time BTC/ETH prices
-- Glassmorphism UI
-- Interactive charts
-- Responsive modern dashboard
-- REST API architecture
+* **Мониторинг цен:** Актуальные котировки BTC, ETH и других активов.
+* **Интерактивные графики:** Визуализация изменений цен.
+* **Bitcoin Clicker:** Игровой элемент для взаимодействия с платформой.
+* **Backend:** REST API на FastAPI с поддержкой фоновых задач (Celery + Redis).
+* **UI/UX:** Современный дизайн в стиле Glassmorphism.
 
----
-
-## Tech Stack
+## 🛠 Технологический стек
 
 ### Backend
-- FastAPI
-- PostgreSQL
-- SQLAlchemy
-- Celery
-- Docker
+- **FastAPI:** Высокопроизводительный фреймворк для API.
+- **PostgreSQL:** Надежная база данных для хранения данных.
+- **SQLAlchemy:** ORM для работы с БД.
+- **Celery + Redis:** Фоновые задачи для обновления данных.
 
 ### Frontend
-- Next.js 16
-- TypeScript
-- TailwindCSS
-- Recharts
+- **Next.js 16 (App Router):** Современный React-фреймворк.
+- **TypeScript:** Строгая типизация кода.
+- **TailwindCSS:** Адаптивная верстка.
+- **Recharts:** Интерактивная визуализация данных.
 
----
+## 📦 Локальный запуск
 
-## Features
+Для запуска проекта убедитесь, что у вас установлены [Docker](https://www.docker.com/) и [Docker Compose](https://docs.docker.com/).
 
-- Live cryptocurrency prices
-- BTC & ETH tracking
-- Interactive crypto charts
-- Modern premium UI
-- REST API
-- Background task processing
-- PostgreSQL persistence
-- Docker support
-
----
-
-## API Endpoints
-
-### Get latest price
-
-```http
-GET /prices/latest?ticker=BTC
+1. Клонируйте репозиторий:
+   ```bash
+   git clone [https://github.com/Gidproj/crypto-test-task.git](https://github.com/Gidproj/crypto-test-task.git)
+   cd crypto-test-task
