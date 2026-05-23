@@ -6,7 +6,10 @@ import CryptoChart from "./components/CryptoChart";
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-8 py-6 bg-black text-white overflow-hidden">
+    <main className="relative overflow-hidden min-h-screen bg-black text-white">
+
+    <div className="orange-glow top-[-200px] right-[-100px]" />
+    <div className="orange-glow bottom-[-250px] left-[-150px]" />
       <Navbar />
 
       <section className="max-w-7xl mx-auto mt-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">

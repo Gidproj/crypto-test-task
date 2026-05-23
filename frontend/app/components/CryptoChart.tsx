@@ -1,67 +1,58 @@
 "use client";
 
 import {
-  AreaChart,
-  Area,
-  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  Tooltip,
 } from "recharts";
 
 const data = [
-  { value: 120 },
-  { value: 210 },
-  { value: 180 },
-  { value: 260 },
-  { value: 240 },
-  { value: 320 },
-  { value: 280 },
-  { value: 390 },
-  { value: 420 },
-  { value: 460 },
+  { name: "Mon", price: 92000 },
+  { name: "Tue", price: 94000 },
+  { name: "Wed", price: 91000 },
+  { name: "Thu", price: 98000 },
+  { name: "Fri", price: 102000 },
+  { name: "Sat", price: 104000 },
 ];
 
 export default function CryptoChart() {
   return (
-    <div className="glass rounded-3xl p-6 h-[320px]">
-      <div className="flex justify-between items-center mb-6">
+    <div className="bg-[#18181b] rounded-[32px] p-6 h-[320px]">
+      <div className="flex items-start justify-between mb-6">
         <div>
-          <p className="text-white/50 text-sm">
-            Market Analytics
-          </p>
-
-          <h2 className="text-3xl font-bold mt-2">
-            BTC Trend
-          </h2>
+          <p className="text-gray-400 text-sm">Market Analytics</p>
+          <h3 className="text-2xl font-bold text-white">BTC Trend</h3>
         </div>
 
         <div className="text-right">
-          <p className="text-green-400 text-lg font-semibold">
-            +18.4%
-          </p>
-
-          <p className="text-white/40 text-sm">
-            this month
-          </p>
+          <p className="text-green-400 text-2xl font-bold">+18.4%</p>
+          <p className="text-gray-500 text-sm">this month</p>
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height="80%">
-        <AreaChart data={data}>
-          <defs>
-            <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ff7b00" stopOpacity={0.8} />
-              <stop offset="100%" stopColor="#ff7b00" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-
-          <Area
-            type="monotone"
-            dataKey="value"
-            stroke="#ff7b00"
-            strokeWidth={4}
-            fill="url(#colorValue)"
+      <div className="flex justify-center">
+        <LineChart
+          width={420}
+          height={180}
+          data={data}
+        >
+          <XAxis
+            dataKey="name"
+            stroke="#888"
           />
-        </AreaChart>
-      </ResponsiveContainer>
+
+          <Tooltip />
+
+          <Line
+            type="monotone"
+            dataKey="price"
+            stroke="#f97316"
+            strokeWidth={4}
+            dot={false}
+          />
+        </LineChart>
+      </div>
     </div>
   );
 }
