@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Добавьте этот блок:
   eslint: {
-    // Внимание: это отключает проверку ESLint при сборке на Vercel
     ignoreDuringBuilds: true,
   },
 };
