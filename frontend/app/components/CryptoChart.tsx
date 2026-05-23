@@ -21,8 +21,8 @@ export default function CryptoChart() {
         const json = await res.json();
 
         const formatted = json.map((item: any) => ({
-          time: new Date(item.created_at).toLocaleTimeString(),
-          price: item.price,
+            time: new Date(item.timestamp * 1000).toLocaleTimeString(),
+            price: item.price,
         }));
 
         setData(formatted);
