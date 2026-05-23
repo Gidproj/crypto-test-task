@@ -6,7 +6,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 import random
 import time
 
-# 1. Подключаем SQLite 
+# Подключаем SQLite
 SQLALCHEMY_DATABASE_URL = "sqlite:///./crypto.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -24,7 +24,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# 2. Настраиваем CORS для Vercel
+# Настраиваем CORS для Vercel (без слеша на конце!)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://crypto-test-task-puce.vercel.app"],
@@ -33,26 +33,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 3. Эмуляция Celery
+# Эмуляция фоновой задачи (теперь генерируем и BTC, и ETH)
 async def mock_crypto_parser():
     while True:
         db = SessionLocal()
-       
-        new_price = Price(
+        current_time = int(time.time())
+        
+        # Добавляем BTC
+        btc_price = Price(
             ticker="BTC", 
             price=random.uniform(60000.0, 65000.0), 
-            timestamp=int(time.time())
+            timestamp=current_time
         )
-        db.add(new_price)
+        # Добавляем ETH
+        eth_price = Price(
+            ticker="ETH", 
+            price=random.uniform(3000.0, 3200.0), 
+            timestamp=current_time
+        )
+        
+        db.add(btc_price)
+        db.add(eth_price)
         db.commit()
         db.close()
-        await asyncio.sleep(60) 
+        
+        await asyncio.sleep(60) # Обновляем раз в минуту
 
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(mock_crypto_parser())
 
-# 4. Эндпоинт для фронта
+# Эндпоинт для последней цены (для карточек)
 @app.get("/prices/latest")
 def get_latest_price(ticker: str = "BTC"):
     db = SessionLocal()
@@ -61,3 +72,16 @@ def get_latest_price(ticker: str = "BTC"):
     if latest:
         return {"ticker": latest.ticker, "price": latest.price, "timestamp": latest.timestamp}
     return {"error": "No data found"}
+
+# НОВЫЙ: Эндпоинт для графика (история цен)
+@app.get("/prices/history")
+def get_price_history(ticker: str = "BTC", limit: int = 20):
+    db = SessionLocal()
+    # Берем последние N записей
+    history = db.query(Price).filter(Price.ticker == ticker).order_by(Price.timestamp.desc()).limit(limit).all()
+    db.close()
+    
+    # Разворачиваем список, чтобы старые данные были слева, а новые справа (как на графиках)
+    history.reverse()
+    
+    return [{"timestamp": item.timestamp, "price": item.price} for item in history]
