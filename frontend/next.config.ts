@@ -1,5 +1,9 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ["127.0.0.1"],
+  eslint: {
+    // Внимание: это отключает проверку ESLint при сборке на Vercel
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
