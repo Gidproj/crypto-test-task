@@ -1,70 +1,48 @@
 "use client";
 
-import Navbar from "./components/Navbar";
-import CoinCard from "./components/CoinCard";
-import CryptoChart from "./components/CryptoChart";
+import { useState } from "react";
 
-export default function Home() {
+export default function TradingPage() {
+  const [count, setCount] = useState(0);
+
   return (
-    <main className="relative overflow-hidden min-h-screen bg-black text-white">
+    <main className="relative min-h-[calc(100vh-80px)] bg-black text-white flex flex-col items-center justify-center p-6 overflow-hidden">
+      {/* Декоративное свечение (как на главной) */}
+      <div className="orange-glow top-[-200px] right-[-100px]" />
+      <div className="orange-glow bottom-[-250px] left-[-150px]" />
 
-    <div className="orange-glow top-[-200px] right-[-100px]" />
-    <div className="orange-glow bottom-[-250px] left-[-150px]" />
-      <Navbar />
+      <div className="z-10 flex flex-col items-center w-full max-w-2xl">
+        <h1 className="text-4xl font-black mb-12 uppercase tracking-tighter">
+          Bitcoin Clicker
+        </h1>
 
-      <section className="max-w-7xl mx-auto mt-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        
-        {/* LEFT */}
-        <div>
-          <p className="uppercase tracking-[0.3em] text-gray-400 mb-4">
-            Crypto Platform
-          </p>
-
-          <h1 className="text-7xl font-black leading-none">
-            CRYPTO
-            <br />
-            EXCHANGE
-          </h1>
-
-          <p className="text-gray-400 mt-6 max-w-xl text-lg leading-relaxed">
-            Real-time cryptocurrency dashboard powered by
-            FastAPI and Next.js.
-          </p>
-
-          <div className="flex gap-4 mt-8">
-            <button className="px-8 py-4 rounded-full bg-orange-500 hover:bg-orange-400 transition-all font-semibold">
-              Start Trading
-            </button>
-
-            <button className="px-8 py-4 rounded-full border border-white/20 hover:border-orange-400 transition-all">
-              Learn More
-            </button>
-          </div>
+        {/* Монета */}
+        <div
+          className="relative group cursor-pointer transition-transform duration-100 active:scale-95"
+          onClick={() => setCount(count + 1)}
+        >
+          {/* Свечение под монетой */}
+          <div className="absolute inset-0 bg-orange-500/20 blur-[80px] rounded-full group-hover:bg-orange-500/30 transition-all" />
+          
+          {/* Само изображение */}
+          {/* Убедитесь, что файл лежит в public/bitcoin.png */}
+          <img 
+            src="/bitcoin.png" 
+            alt="Bitcoin" 
+            className="w-64 h-64 md:w-80 md:h-80 relative z-10 drop-shadow-[0_0_30px_rgba(247,147,26,0.3)] transition-all hover:scale-105"
+          />
         </div>
 
-        {/* RIGHT */}
-        <div className="glass rounded-[32px] p-6">
-          <div className="grid gap-4">
-
-            <CoinCard
-              name="Bitcoin"
-              symbol="BTC"
-              price={104233}
-              color="orange"
-            />
-
-            <CoinCard
-              name="Ethereum"
-              symbol="ETH"
-              price={3120}
-              color="purple"
-            />
-
-            <CryptoChart />
-
+        {/* Счетчик */}
+        <div className="mt-16 backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-3xl shadow-2xl text-center w-full">
+          <p className="text-gray-400 uppercase tracking-[0.2em] text-sm mb-2">
+            Balance
+          </p>
+          <div className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">
+            {count.toLocaleString()} <span className="text-orange-500">BTC</span>
           </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
