@@ -1,58 +1,57 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
   XAxis,
+  YAxis,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Mon", price: 92000 },
-  { name: "Tue", price: 94000 },
-  { name: "Wed", price: 91000 },
-  { name: "Thu", price: 98000 },
-  { name: "Fri", price: 102000 },
-  { name: "Sat", price: 104000 },
-];
-
 export default function CryptoChart() {
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          "http://127.0.0.1:8000/prices/history?ticker=BTC"
+        );
+
+        const json = await res.json();
+
+        const formatted = json.map((item: any) => ({
+          time: new Date(item.created_at).toLocaleTimeString(),
+          price: item.price,
+        }));
+
+        setData(formatted);
+      } catch (err) {
+        console.error("Chart error:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="bg-[#18181b] rounded-[32px] p-6 h-[320px]">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <p className="text-gray-400 text-sm">Market Analytics</p>
-          <h3 className="text-2xl font-bold text-white">BTC Trend</h3>
-        </div>
-
-        <div className="text-right">
-          <p className="text-green-400 text-2xl font-bold">+18.4%</p>
-          <p className="text-gray-500 text-sm">this month</p>
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-        <LineChart
-          width={420}
-          height={180}
-          data={data}
-        >
-          <XAxis
-            dataKey="name"
-            stroke="#888"
-          />
-
+    <div className="w-full h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
+          <XAxis dataKey="time" />
+          <YAxis />
           <Tooltip />
-
           <Line
             type="monotone"
             dataKey="price"
-            stroke="#f97316"
-            strokeWidth={4}
+            stroke="#ff7a18"
+            strokeWidth={3}
             dot={false}
           />
         </LineChart>
-      </div>
+      </ResponsiveContainer>
     </div>
   );
 }
