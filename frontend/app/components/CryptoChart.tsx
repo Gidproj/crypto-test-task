@@ -16,9 +16,7 @@ export default function CryptoChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          "http://127.0.0.1:8000/prices/history?ticker=BTC"
-        );
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prices/history?ticker=BTC`)
 
         const json = await res.json();
 
